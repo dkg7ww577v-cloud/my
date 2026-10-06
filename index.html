@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>推し活管理アプリ</title>
+  <style>
+    :root {
+      --primary-color: #ffb6c1;
+      --bg-color: #fff5f7;
+      --card-bg: #ffffff;
+      --text-color: #4a4a4a;
+      --accent-color: #ff69b4;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ffd1dc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: var(--accent-color);
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .item-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .item-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ffe4e1;
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #ffe4e1;
+      color: var(--accent-color);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>🎀 グッズ・推し活管理 🎀</h1>
+    </header>
+
+    <!-- 入力フォーム -->
+    <div class="card">
+      <h3>新しいグッズを登録</h3>
+      <input type="text" id="itemName" placeholder="グッズ名（例：缶バッジ）">
+      <input type="text" id="charaName" placeholder="キャラ名・メンバー名">
+      <select id="status">
+        <option value="所持">所持している</option>
+        <option value="予約中">予約中・未発送</option>
+        <option value="求">求めている（未所持）</option>
+      </select>
+      <button onclick="addItem()">追加する</button>
+    </div>
+
+    <!-- グッズ一覧 -->
+    <h3>持ち物・予約リスト</h3>
+    <div class="item-list" id="itemList">
+      <!-- ここに追加されたカードが表示されます -->
+    </div>
+  </div>
+
+  <script>
+    const items = [
+      { name: "アクリルスタンド", chara: "推しA", status: "所持" },
+      { name: "ライブTシャツ", chara: "推しB", status: "予約中" }
+    ];
+
+    function render() {
+      const list = document.getElementById("itemList");
+      list.innerHTML = "";
+      items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item-card";
+        div.innerHTML = `
+          <strong>${item.name}</strong><br>
+          <small>${item.chara}</small><br>
+          <span class="tag">${item.status}</span>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function addItem() {
+      const name = document.getElementById("itemName").value;
+      const chara = document.getElementById("charaName").value;
+      const status = document.getElementById("status").value;
+
+      if (name) {
+        items.push({ name, chara, status });
+        render();
+        document.getElementById("itemName").value = "";
+        document.getElementById("charaName").value = "";
+      }
+    }
+
+    render();
+  </script>
+
+</body>
+</html>
